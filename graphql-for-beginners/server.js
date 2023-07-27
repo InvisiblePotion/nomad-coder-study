@@ -31,7 +31,7 @@ const typeDefs = gql`
         allTweets: [Tweet!]!
         tweet(id: ID!): Tweet
     }
-e5ed5red5try53er
+
     type Mutation {
         postTweet(text: String!, userId: ID!): Tweet!
         deleteTweet(id: ID!): Boolean!
