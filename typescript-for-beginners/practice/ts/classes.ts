@@ -62,5 +62,4 @@ class Word {
 const kimchi = new Word("kimchi", "밥도둑 절임채소");
 const dict = new Dict();
 dict.add(kimchi);
-
 console.log(dict);
