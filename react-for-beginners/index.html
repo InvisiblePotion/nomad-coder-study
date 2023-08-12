@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <style>
+            body {
+                background-color: #555;
+                color: #fff;
+            }
+        </style>
+    </head>
     <body>
         <div id="root"></div>
     </body>
@@ -11,57 +19,50 @@
         // 코드 변환기에게 이게 변환될 코드임을 타입으로 명시
         const root = document.getElementById("root");
 
-        // JSX 문법으로 작성한 코드 (함수)
-        // 직접 만든 HTML 요소의 경우 반드시 첫 글자가 대문자여야 한다 (파스칼 케이스 강제)
-        function Title() {
+        // 컴포넌트 함수 (파스칼 케이스)
+        function App() {
+            /* React.useState(변수 초기값, 모디파이어 함수)
+                useState()는 컴포넌트의 첫 렌더링 시에만 실행된다.
+
+                또한, useState()를 사용하는 경우 모디파이어를 통하지 않고 값을 변경시키는 것은
+                다음 렌더링에 반영되지 않기 때문에 일반적으로 의미가 없으며
+                때문에 const로 선언하는 것이 권장된다.
+            */
+            const [counter, setCounter] = React.useState(0);
+
+            /* 클로저의 캡쳐와 재활용
+                이 onClick() 함수는 App() 함수의 첫 번째 실행이 종료될 때
+                counter, setCounter와 함께 클로저(Closure)로써 캡쳐되어 힙 메모리에 저장되고
+                App 컴포넌트가 재렌더링 될 때마다 참조되어 사용된다.
+
+                따라서 매 렌더링마다 onClick() 함수가 button의 이벤트 리스너로써 할당되는건 맞지만,
+                onClick() 함수 자체가 매번 재생성되지는 않는다.
+                (즉, 첫 렌더링 당시에 생성된 onClick() 함수가 매 렌더링 마다 재활용된다)
+            */
+            const onClick = () => {
+                // 모디파이어 함수를 통해 state 변수를 변경하고 컴포넌트를 재렌더링한다
+
+                
+                /* 모디파이어 함수의 인자 형식에 따른 차이
+                    인수로 일반적인 변수의 값을 준다면 해당 값을 state 변수에 넣는다.
+                    ex) setCounter(counter);
+
+                    하지만 인수로 함수를 준다면 아래의 current에는 반드시 counter라는
+                    state 변수의 현재 값이 들어간다.
+                    즉, onClick() 함수의 실행 위치에 관계 없이 state 변수의 현재 값을
+                    안전하게 적용할 수 있다
+                */
+                setCounter((current) => current + 1);
+            }
+            console.log("렌더됨", counter);
             return (
-                <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>
-                    This is title
-                </h3>
+                <div>
+                    <h3>Total clicks: {counter}</h3>
+                    <button onClick={onClick}>Click me</button>
+                </div>
             );
-        }
-
-        // React.createElement()를 직접 이용한 코드
-        /*
-        const title = React.createElement(
-            "h3",
-            {
-                onMouseEnter: () => console.log("mouse enter"),
-            },
-            "This is title"
-        ); 
-        */
-
-        // JSX 문법으로 작성한 코드 (화살표 함수)
-        // 직접 만든 HTML 요소의 경우 반드시 첫 글자가 대문자여야 한다 (파스칼 케이스 강제)
-        const Button = () => (
-            <button
-                style={{ backgroundColor: "tomato" }}
-                onClick={() => console.log("clicked")}
-            >
-                Click me
-            </button>
-        );
-
-        // React.createElement()를 직접 이용한 코드
-        /*
-        const button = React.createElement(
-            "button",
-            {
-                onClick: () => console.log("clicked!"),
-                style: {
-                    backgroundColor: "tomato",
-                },
-            },
-            "Click me"
-        );
-        */
-        const Container = () => (
-            <div>
-                <Title />
-                <Button />
-            </div>
-        );
-        ReactDOM.render(<Container />, root);
+        };
+        // 초기화를 위해 위의 App 컴포넌트를 수동으로 렌더링하는 함수.
+        ReactDOM.render(<App />, root);
     </script>
 </html>
