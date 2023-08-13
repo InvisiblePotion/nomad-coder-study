@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                background-color: #333;
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        function MinutesToHours() {
+            const [amount, setAmount] = React.useState(0);
+            // 현재 활성화된 칸이 어느쪽인지에 대한 스테이트 (기본 false, minutes 활성화)
+            const [inverted, setInverted] = React.useState(false);
+            const onChange = (event) => {
+                setAmount(event.target.value);
+            };
+            const reset = () => setAmount(0);
+            const onInvert = () => {
+                reset();
+                setInverted((current) => !current);
+            };
+            /*
+                여러 태그에 쓰이는 class 속성이나 label 태그에 쓰이는 for 속성의 경우
+                js에 이미 존재하는 예약어이기 때문에 JSX에서는 각각 className, htmlFor로 사용한다.
+            */
+            return (
+                <div>
+                    <div>
+                        <label htmlFor="minutes">Minutes: </label>
+                        <input
+                            value={inverted ? amount * 60 : amount}
+                            id="minutes"
+                            placeholder="Minutes"
+                            type="number"
+                            onChange={onChange}
+                            disabled={inverted}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="hours">Hours: </label>
+                        <input
+                            value={inverted ? amount : Math.round(amount / 60)}
+                            id="hours"
+                            placeholder="Hours"
+                            type="number"
+                            onChange={onChange}
+                            disabled={!inverted}
+                        />
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onInvert}>
+                        {inverted ? "Turn back" : "Invert"}
+                    </button>
+                </div>
+            );
+        }
+        function KmToMiles() {
+            const [rawValue, setRawValue] = React.useState(0);
+            const [isKm, setIsKm] = React.useState(true);
+            const CONVERT_NUMBER = 1.609;
+
+            function onInputRawValue(event) {
+                setRawValue(event.target.value);
+            }
+            function onClickInputTag(event) {
+                parseFloat(event.target.value) === 0
+                    ? (event.target.value = "")
+                    : null;
+            }
+            function onInvert() {
+                setIsKm((current) => !current);
+                reset();
+            }
+            function reset() {
+                setRawValue(0);
+            }
+            return (
+                <div className="container-km&miles">
+                    <div class="container-km">
+                        <label htmlFor="km">Kilometer: </label>
+                        <input
+                            id="km"
+                            placeholder="Km"
+                            type="number"
+                            value={isKm ? rawValue : rawValue * CONVERT_NUMBER}
+                            disabled={!isKm}
+                            onChange={onInputRawValue}
+                            onClick={onClickInputTag}
+                        />
+                    </div>
+                    <div class="container-miles">
+                        <label htmlFor="miles">Miles: </label>
+                        <input
+                            id="miles"
+                            placeholder="Miles"
+                            type="number"
+                            value={isKm ? rawValue / CONVERT_NUMBER : rawValue}
+                            disabled={isKm}
+                            onChange={onInputRawValue}
+                            onClick={onClickInputTag}
+                        />
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onInvert}>Invert</button>
+                </div>
+            );
+        }
+        function App() {
+            const [index, setIndex] = React.useState("initial");
+            const onselect = (event) => {
+                setIndex(event.target.value);
+            };
+            return (
+                <div>
+                    <h1>Super Converter</h1>
+                    <select value={index} onChange={onselect}>
+                        <option value="initial">Select your units</option>
+                        <option value="0">Minutes & Hours</option>
+                        <option value="1">Km & Miles</option>
+                    </select>
+                    <hr />
+                    {index === "initial" ? (
+                        "단위를 선택해주세요"
+                    ) : index === "0" ? (
+                        <MinutesToHours />
+                    ) : index === "1" ? (
+                        <KmToMiles />
+                    ) : null}
+                </div>
+            );
+        }
+        const root = document.getElementById("root");
+        ReactDOM.render(<App />, root);
+    </script>
+</html>
