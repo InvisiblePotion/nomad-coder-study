@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import UseEffectExample from "./useEffectExample";
+import ButtonExample from './cssModuleExample';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <div>
+    <UseEffectExample />
+    <ButtonExample text='Button' />
+  </div>
 );
