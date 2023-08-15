@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                background-color: #333;
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="root"></div>
+    </body>
+    <!-- React -->
+    <!-- 4.2 Prop Types 강의를 기준으로 PropTypes 패키지와의 호환을 위해 
+        react.production.min.js에서 react.development.js로 스크립트 패키지를 변경하였다. -->
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <!-- ReactDOM -->
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <!-- Babel: JSX 문법을 JS에 맞는 문법으로 변환해주는 스크립트 변환 패키지 -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- propTypes: 컴포넌트에서 받는 속성의 타입을 정할 수 있게 해주는 패키지 -->
+    <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+    <script type="text/babel">
+        /* 
+            함수형 컴포넌트의 첫번째 파라미터는 JSX 요소로 사용할 때 입력된 모든 속성을 담은 객체가 들어온다.
+            파라미터 명을 정해서 `파라미터명.속성명` 으로 사용하거나
+            객체 비구조화 문법을 사용하여 `{ 속성명1, 속성명2 }` 처럼 파라미터를 설정하여
+            속성 이름을 직접 변수로써 사용할 수도 있다.
+        */
+        function Btn({ text, fontSize=12, changeValue }) {
+            console.log(text, "렌더됨");
+            return (
+                <button
+                    onClick={changeValue}
+                    style={{
+                        backgroundColor: "tomato",
+                        color: "white",
+                        padding: "10px 20px",
+                        border: 0,
+                        borderRadius: 10,
+                        fontSize: fontSize,
+                    }}
+                >
+                    {text}
+                </button>
+            );
+        }
+        /* 
+            PropTypes 패키지를 사용하여 컴포넌트의 속성의 타입을 정한다.
+            이렇게 타입이 정해진 컴포넌트에 정해진 잘못된 타입이 속성값으로 들어올 경우 브라우저의 콘솔에 에러를 출력한다.
+            타입의 끝에 `.isRequired` 를 붙이는 것으로 필수 속성으로 만들 수 있다. (물론 콘솔에 에러가 출력될 뿐이다.)
+            지원하는 타입의 종류에 대해서는 PropTypes 객체 참고
+        */
+        Btn.propTypes = {
+            text: PropTypes.string.isRequired,
+            fontSize: PropTypes.number,
+        };
+
+        /* 
+            메모이제이션(Memoization) 기능을 제공하는 React.memo() 함수를 사용하여 컴포넌트의 매 실행의 결과를 저장한 뒤
+            이전의 실행과 인수가 같은 즉, 함수의 처리 결과가 같을 것으로 예상되는 경우에
+            저장해둔 이전의 실행 결과를 대신 반환해 불필요한 계산을 줄일 수 있다.
+
+            단, 컴포넌트의 실행 수가 많은 경우엔 메모리를 크게 잡아먹으니 사용 시 주의가 필요하다.
+
+            현 예제에서는 위의 PropTypes 패키지와 호환되지 않아 비활성화 하였다.
+        */
+        // const MemorizedBtn = React.memo(Btn);
+        function App() {
+            const [value, setValue] = React.useState("Save Changes");
+            const changeValue = () => setValue("Revert Changes");
+            return (
+                <div>
+                    <Btn text={value} fontSize={18} changeValue={changeValue} />
+                    <Btn text="Continue" fontSize={18} />
+                </div>
+            );
+        }
+        const root = document.getElementById("root");
+        ReactDOM.render(<App />, root);
+    </script>
+</html>

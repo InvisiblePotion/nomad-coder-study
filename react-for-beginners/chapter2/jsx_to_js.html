@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> <!-- JSX to JS 코드 변환기 -->
+    <script type="text/babel"> // 코드 변환기에게 이게 변환될 코드임을 타입으로 명시
+        const root = document.getElementById("root");
+
+        // JSX 문법으로 작성한 코드
+        const Title = (
+            <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>
+                This is title
+            </h3>
+        );
+
+        // React.createElement()를 직접 이용한 코드
+        /*
+        const Title = React.createElement(
+            "h3",
+            {
+                onMouseEnter: () => console.log("mouse enter"),
+            },
+            "This is title"
+        ); 
+        */
+       
+        // JSX 문법으로 작성한 코드
+        const Button = (
+            <button
+                style={{ backgroundColor: "tomato" }}
+                onClick={() => console.log("clicked")}
+            >
+                Click me
+            </button>
+        );
+
+        // React.createElement()를 직접 이용한 코드
+        /*
+        const Button = React.createElement(
+            "button",
+            {
+                onClick: () => console.log("clicked!"),
+                style: {
+                    backgroundColor: "tomato",
+                },
+            },
+            "Click me"
+        );
+        */
+        const container = React.createElement("div", null, [Title, Button]);
+        ReactDOM.render(container, root);
+    </script>
+</html>
