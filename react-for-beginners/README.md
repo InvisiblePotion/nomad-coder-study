@@ -3,6 +3,12 @@
 
 2023-08-11 ~ ongoing
 
+## 프로젝트 특이사항
+### react-router-dom 버전 이슈
+* react-router-dom의 버전을 5.3.0으로 사용하고 있다!
+    + `npm i react-router-dom@5.3.0` 를 사용해 설치했다.
+    + 프로젝트의 내용과 달리 버전 6부터는 `Switch` 컴포넌트의 이름이 `Routes`로 변경되고 `<Route path="/"><컴포넌트 /></Route>` 와 같이 사용하는 것이 아닌 `<Route path="/" element={<컴포넌트 />} />` 와 같이 사용한다고 한다.
+
 ## 메모
 ### JSX 문법
 * html 태그의 class 속성이나 for 속성과 같이 js에서 이미 예약어로 사용되는 속성의 경우 정해진 다른 이름을 사용해야 한다.
