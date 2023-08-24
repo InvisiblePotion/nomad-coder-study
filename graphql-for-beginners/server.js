@@ -6,10 +6,26 @@ let tweets = [
   {
     id: "1",
     text: "first one",
+    userId: "2",
   },
   {
     id: "2",
     text: "second one",
+    userId: "1",
+  },
+];
+
+// 임시 모조 데이터베이스
+let users = [
+  {
+    id: "1",
+    firstName: "nico",
+    lastName: "las",
+  },
+  {
+    id: "2",
+    firstName: "invisible",
+    lastName: "potion",
   },
 ];
 
@@ -29,23 +45,29 @@ let tweets = [
 const typeDefs = gql(`
   type User {
     id: ID!
-    username: String!
     firstName: String!
-    lastName: String
+    lastName: String!
+    fullName: String!
   }
-
+  """
+  Tweet 타입은 트윗 어쩌고 대충 설명 머시기
+  """
   type Tweet {
+    """아이디입니다"""
     id: ID!
     text: String!
     author: User
   }
 
   type Query {
+    """모든 유저의 데이터를 가져옵니다"""
+    allUsers: [User!]!
     allTweets: [Tweet!]!
     tweet(id: ID!): Tweet
   }
 
   type Mutation {
+    """트윗을 작성합니다"""
     postTweet(text: String!, userId: ID!): Tweet!
     deleteTweet(id: ID!): Boolean!
   }
@@ -56,8 +78,12 @@ const resolvers = {
     allTweets() {
       return tweets;
     },
-    tweet(root, { id }) {
+    tweet(_, { id }) {
       return tweets.find((tweet) => tweet.id === id);
+    },
+    allUsers() {
+      console.log("allUsers called");
+      return users;
     },
   },
   Mutation: {
@@ -78,6 +104,17 @@ const resolvers = {
       // 있다면 해당하는 트윗을 제외한 트윗만을 담은 배열을 다시 tweets에 입력 후 true 리턴
       tweets = tweets.filter((tweet) => tweet.id !== id); // 상당히 야매다...
       return true;
+    },
+  },
+  User: {
+    fullName(root) {
+      console.log("fullName called");
+      return `${root.firstName} ${root.lastName}`;
+    },
+  },
+  Tweet: {
+    author({ userId }) {
+      return users.find((user) => user.id === userId);
     }
   }
 };
