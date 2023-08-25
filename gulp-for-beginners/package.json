@@ -1,0 +1,18 @@
+{
+  "name": "gulp-for-beginners",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "gulp dev",
+    "build": "gulp build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "@babel/preset-env": "^7.22.10",
+    "@babel/core": "^7.22.11",
+    "@babel/register": "^7.22.5"
+  }
+}
