@@ -5,15 +5,16 @@
 
 ## 프로젝트 특이사항
 ### 설치된 패키지
-* dependencies
+* devDependencies
     + `@babel/core: 7.22.11`
     + `@babel/preset-env: 7.22.10`
     + `@babel/register": 7.22.5`
     + `gulp: 4.0.2`
     + `gulp-webserver: 0.9.1`
-* devDependencies
+* dependencies
     + `del: 4.1.1`
     + `gulp-pug: 5.0.0`
+    + `gulp-image: 5.0.0`
 
 ## 메모
 ### babel
@@ -32,5 +33,6 @@
     + `gulp.watch()`: 파일 변경을 감지하여 실행
 ---
 ### gulp 패키지
-* `gulp-pug`: `gulp`가 `pug` 템플릿 엔진을 `html`로 변환할 수 있도록 하는 패키지다.
-* `gulp-webserver`: `gulp`를 사용한 로컬 웹서버를 구현해주는 패키지다.
+* `gulp-pug`: `gulp`를 통해 `pug` 코드를 `html`로 변환하는 플러그인.
+* `gulp-webserver`: `gulp`를 사용하여 로컬 웹서버를 구현해주는 플러그인.
+* `gulp-image`: `gulp`를 사용하는 이미지 최적화 플러그인.
