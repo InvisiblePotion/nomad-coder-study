@@ -1,12 +1,14 @@
-import gulp from "gulp";
-import gulp_pug from "gulp-pug";
-import del from "del";
-import gulp_webServer from "gulp-webserver";
-import gulp_image from "gulp-image";
-import gulp_sass from "gulp-sass";
-import node_sass from "node-sass";
-import gulp_autoprefixer from "gulp-autoprefixer";
-import gulp_csso from "gulp-csso";
+import gulp, { dest } from "./node_modules/gulp";
+import gulp_pug from "./node_modules/gulp-pug";
+import del from "./node_modules/del";
+import gulp_webServer from "./node_modules/gulp-webserver";
+import gulp_image from "./node_modules/gulp-image";
+import gulp_sass from "./node_modules/gulp-sass";
+import node_sass from "./node_modules/node-sass";
+import gulp_autoprefixer from "./node_modules/gulp-autoprefixer";
+import gulp_csso from "./node_modules/gulp-csso";
+import gulp_bro from "./node_modules/gulp-bro";
+import babelify from "./node_modules/babelify";
 
 const sass = gulp_sass(node_sass);
 
@@ -24,6 +26,11 @@ const routes = {
         watch: "src/scss/**/*.scss",
         src: "src/scss/styles.scss",
         dest: "build/css",
+    },
+    js: {
+        watch: "src/js/**/*.js",
+        src: "src/js/main.js",
+        dest: "build/js",
     },
 };
 
@@ -49,17 +56,28 @@ const styles = () =>
         .pipe(gulp_csso())
         .pipe(gulp.dest(routes.scss.dest));
 
+const js = () =>
+    gulp.src(routes.js.src).pipe(
+        gulp_bro({
+            transform: [
+                babelify.configure({ presets: ["@babel/preset-env"] }),
+                ["uglifyify", { global: true }],
+            ],
+        })
+    ).pipe(gulp.dest(routes.js.dest));
+
 const watch = () => {
     gulp.watch(routes.pug.watch, pug);
     gulp.watch(routes.img.src, img);
     gulp.watch(routes.scss.watch, styles);
+    gulp.watch(routes.js.watch, js);
 };
 
 // 준비: build 폴더를 삭제한 다음 이미지 최적화를 진행
 const prepare = gulp.series([clean, img]);
 
 // 에셋 컴파일: pug로 작성된 코드를 html로 변환
-const assets = gulp.series([pug, styles]);
+const assets = gulp.series([pug, styles, js]);
 
 // 웹서버: 빌드된 코드로 웹서버 구동과 파일 변경 체커를 병렬 실행
 const postDev = gulp.parallel([webserver, watch]);

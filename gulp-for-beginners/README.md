@@ -18,6 +18,8 @@
     + `gulp-sass: 6.2.1`
     + `gulp-autoprefixer: 8.0.0`
     + `gulp-csso: 4.0.1`
+    + `babelify: 10.0.0`
+    + `uglifyify: 5.0.2`
 
 ## 메모
 ### babel
@@ -44,3 +46,6 @@
 * `gulp-autoprefixer`: `gulp`를 사용하여 `css`의 브라우저 호환성 옵션을 더해주는 플러그인
     + `package.json`에 `browserslist` 요소를 추가하여 호환성의 정도에 대한 옵션을 추가할 수 있다.
 * `gulp-csso`: `gulp`를 사용하여 `css`를 최적화 해주는 플러그인
+* `gulp-bro`: `gulp`를 사용하여 `Browserify` 기능을 사용하게 해주는 플러그인
+    + `Browserify`는 브라우저 환경에서 ES6와 같은 Node.js 스타일의 모듈을 사용하기 위한 오픈소스 패키지다.
+    + 추가로 `gulp-bro`를 사용하기 위해 `uglifyify` 패키지의 설치가 필요하다.
