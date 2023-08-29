@@ -10,11 +10,15 @@
     + `@babel/preset-env: 7.22.10`
     + `@babel/register": 7.22.5`
     + `gulp: 4.0.2`
+    + `gulp-pug: 5.0.0`
     + `gulp-webserver: 0.9.1`
+    + `gulp-image: 5.0.0`
+    + `node-sass: 9.0.0`
+    + `gulp-sass: 6.2.1`
+    + `gulp-autoprefixer: 8.0.0`
+    + `gulp-csso: 4.0.1`
 * dependencies
     + `del: 4.1.1`
-    + `gulp-pug: 5.0.0`
-    + `gulp-image: 5.0.0`
 
 ## 메모
 ### babel
@@ -32,7 +36,12 @@
     + `gulp.parallel()`: 병렬 실행
     + `gulp.watch()`: 파일 변경을 감지하여 실행
 ---
-### gulp 패키지
-* `gulp-pug`: `gulp`를 통해 `pug` 코드를 `html`로 변환하는 플러그인.
-* `gulp-webserver`: `gulp`를 사용하여 로컬 웹서버를 구현해주는 플러그인.
-* `gulp-image`: `gulp`를 사용하는 이미지 최적화 플러그인.
+### gulp 플러그인
+* `gulp-pug`: `gulp`를 통해 `pug` 코드를 `html`로 변환하는 플러그인
+* `gulp-webserver`: `gulp`를 사용하여 로컬 웹서버를 구현해주는 플러그인
+* `gulp-image`: `gulp`를 사용하는 이미지 최적화 플러그인
+* `gulp-sass`: `gulp`를 사용하여 `sass(scss)`를 컴파일 해주는 플러그인
+    + 사용을 위해 `node-sass`의 설치가 필요하다.
+* `gulp-autoprefixer`: `gulp`를 사용하여 `css`의 브라우저 호환성 옵션을 더해주는 플러그인
+    + `package.json`에 `browserslist` 요소를 추가하여 호환성의 정도에 대한 옵션을 추가할 수 있다.
+* `gulp-csso`: `gulp`를 사용하여 `css`를 최적화 해주는 플러그인
