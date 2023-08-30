@@ -20,6 +20,7 @@
     + `gulp-csso: 4.0.1`
     + `babelify: 10.0.0`
     + `uglifyify: 5.0.2`
+    + `gulp-gh-pages: 0.5.4`
 
 ## 메모
 ### babel
@@ -38,14 +39,15 @@
     + `gulp.watch()`: 파일 변경을 감지하여 실행
 ---
 ### gulp 플러그인
-* `gulp-pug`: `gulp`를 통해 `pug` 코드를 `html`로 변환하는 플러그인
-* `gulp-webserver`: `gulp`를 사용하여 로컬 웹서버를 구현해주는 플러그인
-* `gulp-image`: `gulp`를 사용하는 이미지 최적화 플러그인
-* `gulp-sass`: `gulp`를 사용하여 `sass(scss)`를 컴파일 해주는 플러그인
+* `gulp-pug`: `pug` 코드를 `html`로 변환하는 플러그인
+* `gulp-webserver`: 로컬 웹서버를 열어주는 플러그인
+* `gulp-image`: 이미지 최적화 플러그인
+* `gulp-sass`: `sass(scss)`를 컴파일 해주는 플러그인
     + 사용을 위해 `node-sass`의 설치가 필요하다.
-* `gulp-autoprefixer`: `gulp`를 사용하여 `css`의 브라우저 호환성 옵션을 더해주는 플러그인
+* `gulp-autoprefixer`: `css`의 브라우저 호환성 옵션을 더해주는 플러그인
     + `package.json`에 `browserslist` 요소를 추가하여 호환성의 정도에 대한 옵션을 추가할 수 있다.
-* `gulp-csso`: `gulp`를 사용하여 `css`를 최적화 해주는 플러그인
-* `gulp-bro`: `gulp`를 사용하여 `Browserify` 기능을 사용하게 해주는 플러그인
+* `gulp-csso`: `css` 파일을 최적화 해주는 플러그인
+* `gulp-bro`: `Browserify` 기능을 사용하게 해주는 플러그인
     + `Browserify`는 브라우저 환경에서 ES6와 같은 Node.js 스타일의 모듈을 사용하기 위한 오픈소스 패키지다.
     + 추가로 `gulp-bro`를 사용하기 위해 `uglifyify` 패키지의 설치가 필요하다.
+* `gulp-gh-pages`: 깃헙 페이지로 배포해주는 플러그인

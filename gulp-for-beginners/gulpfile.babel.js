@@ -1,4 +1,4 @@
-import gulp, { dest } from "./node_modules/gulp";
+import gulp from "./node_modules/gulp";
 import gulp_pug from "./node_modules/gulp-pug";
 import del from "./node_modules/del";
 import gulp_webServer from "./node_modules/gulp-webserver";
@@ -9,6 +9,7 @@ import gulp_autoprefixer from "./node_modules/gulp-autoprefixer";
 import gulp_csso from "./node_modules/gulp-csso";
 import gulp_bro from "./node_modules/gulp-bro";
 import babelify from "./node_modules/babelify";
+import gulpGhPages from "./node_modules/gulp-gh-pages";
 
 const sass = gulp_sass(node_sass);
 
@@ -37,7 +38,7 @@ const routes = {
 const pug = () =>
     gulp.src(routes.pug.src).pipe(gulp_pug()).pipe(gulp.dest(routes.pug.dest));
 
-const clean = () => del([routes.pug.dest]);
+const clean = () => del(["build/", ".publish"]);
 
 const webserver = () =>
     gulp.src("build").pipe(gulp_webServer({ livereload: true, open: true }));
@@ -66,6 +67,8 @@ const js = () =>
         })
     ).pipe(gulp.dest(routes.js.dest));
 
+const gh = () => gulp.src("build/**/*").pipe(gulpGhPages());
+
 const watch = () => {
     gulp.watch(routes.pug.watch, pug);
     gulp.watch(routes.img.src, img);
@@ -80,7 +83,9 @@ const prepare = gulp.series([clean, img]);
 const assets = gulp.series([pug, styles, js]);
 
 // 웹서버: 빌드된 코드로 웹서버 구동과 파일 변경 체커를 병렬 실행
-const postDev = gulp.parallel([webserver, watch]);
+const live = gulp.parallel([webserver, watch]);
 
-// `npm run dev` 커맨드에 준비, 에셋 컴파일, 웹서버의 순차 진행을 등록
-export const dev = gulp.series([prepare, assets, postDev]);
+// `npm run {script}`로 실행 가능하도록 export
+export const build = gulp.series([prepare, assets]);
+export const dev = gulp.series([build, live]);
+export const deploy = gulp.series([build, gh, clean]);
