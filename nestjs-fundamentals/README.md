@@ -19,7 +19,13 @@
     + URL에 Query Parameter로 담겨오는 데이터는 `@Query('param') paramName: string`와 같이 `@Query` 데코레이터를 사용해서 매개변수로 가져올 수 있다.
     + Request Body에 담겨오는 데이터도 마찬가지로 `@Body() paramName`와 같이 `@Body` 데코레이터를 사용하면 매개변수로 가져올 수 있다.
     + `spec.ts` 확장자의 파일은 테스트용 파일이라고 한다.
-    + service에서 `@Injectable()` 데코레이터가 부착된 class를 export하고 이를 controller에서 import한 뒤 `@Controller()` 데코레이터가 부착된 클래스 안에서 `constructor(private readonly importedService: ImportedService) {}`와 같이 사용하는 것으로 **생성자 주입**이 가능하다!
+    + service에서 `@Injectable()` 데코레이터가 부착된 class를 export하고 이를 controller에서 import한 뒤 `@Controller()` 데코레이터가 부착된 클래스 안에서 아래와 같이 사용하는 것으로 **생성자 주입**이 가능하다!
+        ```js
+        import { Service } from './service.service';
+        class Controller() {
+            constructor(private readonly service: Service) {}
+        }
+        ```
         - 다른 의존성 주입 방식이 유효한지는 모르겠다.
 * Pipe
     + NestJS에는 `Pipe`라는 Spring의 `HandlerInterceptor`와 상당히 유사한 HTTP 요청에 대한 전처리 기능이 있다.
@@ -38,3 +44,8 @@
         - `whitelist(boolean)`:  `true`로 설정하면 `class-validator`의 유효성 검사 데코레이터를 하나도 사용하지 않은 모든 속성을 제거한다.
         - `forbidNonWhitelisted(boolean)`: `whitelist` 옵션이 `true`인 경우 사용 가능하며 `true`로 설정하면 whitelist 옵션이 속성을 제거하는 대신 예외를 발생시켜 요청을 거부한다.
         - `transform(boolean)`: `true`로 설정하면 받아온 데이터를 지정된 타입의 객체로 자동 변환한다. (기본적으로 `string` 타입인 URL로부터 받아온 정보를 `number` 등으로 자동 변환 해주는 등)
+    + Patch 요청에 대한 DTO를 만들고 싶다면 `PartialType` 클래스를 DTO 클래스에 상속하면 기존의 DTO 클래스를 재사용하여 간결한 코드 작성이 가능하다.
+        - 같은 객체에 대해 Post나 Put 요청에 쓰이는 기존의 DTO 클래스를 `PartialType()`의 생성자 매개변수로 주면 모든 필드에 `@IsOptional()` 데코레이터가 붙은 형태와 유사하게 작동하는 DTO를 생성할 수 있다.
+            ```js
+            export class NewDto extends PartialType(OldDto) {}
+            ```
