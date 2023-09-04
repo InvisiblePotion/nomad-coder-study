@@ -19,14 +19,6 @@
     + URL에 Query Parameter로 담겨오는 데이터는 `@Query('param') paramName: string`와 같이 `@Query` 데코레이터를 사용해서 매개변수로 가져올 수 있다.
     + Request Body에 담겨오는 데이터도 마찬가지로 `@Body() paramName`와 같이 `@Body` 데코레이터를 사용하면 매개변수로 가져올 수 있다.
     + `spec.ts` 확장자의 파일은 테스트용 파일이라고 한다.
-    + service에서 `@Injectable()` 데코레이터가 부착된 class를 export하고 이를 controller에서 import한 뒤 `@Controller()` 데코레이터가 부착된 클래스 안에서 아래와 같이 사용하는 것으로 **생성자 주입**이 가능하다!
-        ```js
-        import { Service } from './service.service';
-        class Controller() {
-            constructor(private readonly service: Service) {}
-        }
-        ```
-        - 다른 의존성 주입 방식이 유효한지는 모르겠다.
 * Pipe
     + NestJS에는 `Pipe`라는 Spring의 `HandlerInterceptor`와 상당히 유사한 HTTP 요청에 대한 전처리 기능이 있다.
     + `Pipe`에는 3가지의 적용 방법이 있는데 이는 다음과 같다.
@@ -49,3 +41,15 @@
             ```js
             export class NewDto extends PartialType(OldDto) {}
             ```
+* 의존성 주입 (DI: Dependency Injection)
+    + NestJS에서의 DI는 각 Module에서 이루어지며 해당 Module에서 사용하는 Provider를 등록한다. 등록된 Provider는 이후 DI 컨테이너에 의해 관리된다.
+        - Provider란 
+    + Module에서 DI 선언이 된 객체는 Controller, Service 등에서 필요 시에 주입 받을 수 있으며 주로 생성자 주입 방식을 사용한다.
+        ```js
+        @Controller('endpoint')
+        export class ExampleController {
+            // 컨트롤러 클래스의 생성자에 매개변수로써 서비스를 선언하고 있다.
+            constructor(private readonly exampleService: ExampleService) {}
+        }
+        ```
+        - 주입받은 객체의 인스턴스를 사용하는 경우 `this.exampleService` 와 같이 `this`를 통해 사용하는 것이 일반적인 관례이다.
