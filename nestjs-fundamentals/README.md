@@ -6,13 +6,13 @@
 ## 프로젝트 특이사항
 
 ## 메모
-### 1챕터
+### 1챕터: NestJS의 구조
 * NestJS 프로젝트의 `src` 폴더에는 반드시 `main.ts` 파일을 시작 지점으로 가져야한다.
 * NestJS에서는 "데코레이터" 라는 개념을 매우 자주, 중요하게 사용한다. 데코레이터는 `@`를 앞에 붙이는 함수로써 Spring에서의 `@Controller` 어노테이션과 같이 데코레이터 밑에 붙는 함수에 역할이나 기능을 부여한다.
     + 예를 들자면 NestJS의 `@Get('/end-point')` 데코레이터와 Spring의 `@GetMapping("/end-point")` 어노테이션은 똑같이 `'/end-point'`로의 라우팅을 담당한다.
     + Spring과 달리 NestJS의 데코레이터는 반드시 사용할 함수의 바로 위에 붙어있어야 한다. 한 줄이라도 띄워두면 작동하지 않는다!
 ---
-### 2챕터
+### 2챕터: REST API
 * Controller
     + `@Get(':param')`와 같이 라우팅 데코레이터를 이용해 Path Parameter를 적용한 경우엔 이를 함수 내에서 받아 사용하기 위해서 `@Param('param') paramName: string`와 같이 `@Param` 데코레이터를 사용해줘야 한다.
         - 스프링과 달리 `@Get()` 데코레이터의 인자로 들어가는 경로는 처음에 `/`를 생략해도 잘 인식하는듯 하다!
@@ -56,3 +56,31 @@
 * Express
     + NestJS는 Express.js를 기반으로 작동한다. 따라서 원한다면 Express.js의 기능을 NestJS에서도 사용할 수 있다.
     + 메서드의 매개변수에 `@Req()`, `@Res()` 데코레이터를 사용하여 `Request`, `Response` 객체를 받아올 수 있다.
+---
+### 3챕터: 유닛 테스트
+* NestJS에서는 기본적으로 프로젝트 생성 시에 유닛 테스트 패키지인 `jest`에 대한 세팅을 미리 해주며 이후 `nest g` 커맨드를 통해 생성한 파일에 대해서도 곧바로 `jest`를 이용한 테스트가 가능하도록 `spec.ts` 파일을 같이 생성해준다.
+* `jest`는 `describe()` 안에서 테스트 케이스를 작성하여 테스트를 실행하며 아래는 `TestService`라는 임의의 Service의 의존성 주입을 테스트 하는 간단한 예제 코드이다.
+    ```js
+    // 테스트 스위트를 정의한다.
+    describe('Test Zone', () => {
+
+      // 이 스코프에 대한 초기화 작업을 진행한다.
+      beforeEach(async () => {
+        // Provider로 TestService(테스트 대상)을 갖는 테스트 모듈을 생성한다.
+        const module: TestingModule = await Test.createTestingModule({
+          providers: [TestService],
+        }).compile();
+          // TestService의 인스턴스를 변수에 할당한다.
+          service = module.get<TestService>(TestService);
+        });
+
+      // 테스트 케이스를 정의한다.
+      it('should be defined', () => {
+        // service가 제대로 정의되었는지를 검사하는 테스트를 진행한다.
+        expect(service).toBeDefined();
+      });
+
+    });
+    ```
+* `jest`에는 여러 테스트용 함수가 존재하며 그 수가 상당하기에 필요할 때마다 어떤 함수가 좋을지 찾아서 사용하는 것이 좋겠다.
+    - 몇몇 간단한 예시를 `hi-nest\src\movies\movies.service.spec.ts` 에서 찾아볼 수 있다.

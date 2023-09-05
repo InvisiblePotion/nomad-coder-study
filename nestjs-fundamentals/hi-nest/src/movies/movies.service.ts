@@ -8,7 +8,7 @@ export class MoviesService {
   private movies: Movie[] = [];
 
   getAll(): Movie[] {
-    return this.movies;
+    return [...this.movies];
   }
 
   getOne(id: number): Movie {
