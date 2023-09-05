@@ -84,3 +84,17 @@
     ```
 * `jest`에는 여러 테스트용 함수가 존재하며 그 수가 상당하기에 필요할 때마다 어떤 함수가 좋을지 찾아서 사용하는 것이 좋겠다.
     - 몇몇 간단한 예시를 `hi-nest\src\movies\movies.service.spec.ts` 에서 찾아볼 수 있다.
+---
+### 4챕터: E2E 테스트
+* e2e 테스트를 하는 경우 테스트용 파일의 확장자가 `e2e-spec.ts` 이어야 한다.
+* NestJS가 사전에 임포트 해둔 `supertest` 패키지의 `request()` 함수를 각 테스트 케이스의 반환 값으로 두어 체이닝을 통해 요청과 테스트를 진행할 수 있다. 아래는 NestJS가 기본적으로 제공하는 예시 코드다.
+    ```js
+    it('/ (GET)', () => {
+      return request(app.getHttpServer())
+        .get('/')
+        .expect(200)
+        .expect('Welcome to my Movie API');
+    });
+    ```
+    + 테스트 케이스 안에서 return을 사용하는 이유는 return이 없는 경우 테스트 케이스가 내부의 비동기 작업을 기다려주지 않고 완료 된 것으로 간주하기 때문에 return 뒤에 비동기 함수를 위치 시켜 비동기 작업이 있음을 알려줘야 한다.
+* `hi-nest\test\app.e2e-spec.ts` 에서 `app.module.ts` 파일을 테스트하였다.
