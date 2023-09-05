@@ -1,7 +1,7 @@
 # NestJs로 API 만들기
 ### https://nomadcoders.co/nestjs-fundamentals
 
-2023-08-31 ~ ongoing
+2023-08-31 ~ 2023-09-05
 
 ## 프로젝트 특이사항
 
