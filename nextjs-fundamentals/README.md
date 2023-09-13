@@ -19,4 +19,9 @@
 ---
 ### style-jsx
 * Next.js에서도 ReactJS와 같이 `module.css` 확장자를 사용한 CSS 파일을 js 파일에서 import하여 여러 CSS 파일에서 서로 겹치는 이름의 클래스에 CSS를 적용하더라도 파일 별로 랜덤 생성된 고유 클래스 명을 갖도록 만드는 `CSS Module`의 사용이 가능하다. 하지만 Next.js는 컴포넌트 안에서 CSS처럼 스타일을 정의하면서 `CSS Module`의 기능까지 제공하는 `style-jsx` 라이브러리를 제공한다.
-* 
+* 아래와 같이 사용하며 `global` 속성을 줌으로써 현재 컴포넌트가 아닌 페이지 전체에 CSS 속성을 적용 하는 것도 가능하다.
+  ```html
+  <style jsx>
+    {` color: white; `}
+  </style>
+  ```
