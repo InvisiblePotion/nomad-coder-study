@@ -28,11 +28,8 @@ export default function NavBar() {
         About
       </Link>
       <style jsx>{`
-        nav {
-          background-color: tomato;
-        }
         .active {
-          color: yellow;
+          color: tomato;
         }
       `}</style>
     </nav>
