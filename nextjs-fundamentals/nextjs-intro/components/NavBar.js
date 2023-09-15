@@ -27,6 +27,7 @@ export default function NavBar() {
       >
         About
       </Link>
+      {/* 이 style-jsx는 global을 주지 않는 이상 먹히질 않는 문제가 있다. 원인은 모르겠다... */}
       <style jsx>{`
         .active {
           color: tomato;
