@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -13,24 +14,57 @@ export default function NavBar() {
   */
   return (
     <nav>
-      <Link
-        style={{ textDecoration: "none" }}
-        className={router.pathname === "/" ? "active" : ""}
-        href="/"
-      >
-        Home
-      </Link>
-      <Link
-        style={{ textDecoration: "none" }}
-        className={router.pathname === "/about" ? "active" : ""}
-        href="/about"
-      >
-        About
-      </Link>
-      {/* 이 style-jsx는 global을 주지 않는 이상 먹히질 않는 문제가 있다. 원인은 모르겠다... */}
+      <Image src="/vercel.svg" alt="vercel logo" width="100" height="20" />
+      <div>
+        <Link
+          style={{ textDecoration: "none" }}
+          className={router.pathname === "/" ? "active" : ""}
+          href="/"
+        >
+          Home
+        </Link>
+        <Link
+          style={{ textDecoration: "none" }}
+          className={router.pathname === "/about" ? "active" : ""}
+          href="/about"
+        >
+          About
+        </Link>
+      </div>
+      {/*
+        이 style-jsx는 #2.1 강의의 소스 코드에서 가져온 스타일이다.
+        여전히 a 태그에 대한 스타일만 적용되지 않는다...
+      */}
       <style jsx>{`
+        nav {
+          display: flex;
+          gap: 10px;
+          flex-direction: column;
+          align-items: center;
+          padding-top: 20px;
+          padding-bottom: 10px;
+          box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+            rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+        }
+        img {
+          max-width: 100px;
+          margin-bottom: 5px;
+        }
+        /*
+          아래의 nav a와 .active 선택자에 대한 스타일은 적용되지 않는다.
+          /pages/_app.js 에 global 속성으로 추가하여 적용된 상태다.
+
+        nav a {
+          font-weight: 600;
+          font-size: 18px;
+        }
         .active {
           color: tomato;
+        }
+        */
+        nav div {
+          display: flex;
+          gap: 10px;
         }
       `}</style>
     </nav>
