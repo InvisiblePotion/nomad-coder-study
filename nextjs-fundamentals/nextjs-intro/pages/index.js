@@ -1,7 +1,7 @@
 import Seo from "@/components/Seo";
 import { useEffect, useState } from "react";
 
-const API_KEY = "TMDB api key";
+const API_KEY = "496585e562e2045a3c33f7916297c9f7";
 
 export default function Home() {
   const [movies, setMovies] = useState();
@@ -26,14 +26,38 @@ export default function Home() {
     })();
   }, []);
   return (
-    <div>
+    <div className="container">
       <Seo title="Home" />
       {!movies && <h4>Loading...</h4>}
       {movies?.map((movie) => (
-        <div key={movie.id}>
+        <div className="movie" key={movie.id}>
+          {/* 아래 img 태그는 Image 컴포넌트로 바꿔야 하겠지만 CSS와의 충돌을 피할 방법을 몰라 그냥 두겠다 */}
+          <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
           <h4>{movie.original_title}</h4>
         </div>
       ))}
+      {/* 아래 style-jsx는 #2.2 강의 소스코드에서 가져온 내용이다. (위 태그에도 약간의 변경 있음) */}
+      <style jsx>{`
+        .container {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          padding: 20px;
+          gap: 20px;
+        }
+        .movie img {
+          max-width: 100%;
+          border-radius: 12px;
+          transition: transform 0.2s ease-in-out;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        }
+        .movie:hover img {
+          transform: scale(1.05) translateY(-10px);
+        }
+        .movie h4 {
+          font-size: 18px;
+          text-align: center;
+        }
+      `}</style>
     </div>
   );
 }
