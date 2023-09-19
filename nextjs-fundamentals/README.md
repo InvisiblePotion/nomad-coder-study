@@ -45,14 +45,18 @@
   + **스코프 격리:** IIFE는 여타 함수와 같이 내부의 변수와 함수를 격리하여 외부 스코프와의 충돌을 피할 수 있다. 또한 IIFE는 내부의 함수를 반환해 외부에 노출시키지 않는 이상은 재사용도 불가능 하기에 확실하게 변수 이름의 중복을 피할 수 있다.
   + **클로저 생성:** 외부 스코프의 변수를 IIFE 내부에서 사용하는 걸로 클로저가 생성되며 이를 이용해 비동기 작업의 처리를 보장하는데 사용할 수 있다. 이 프로젝트에서는 #2.1 강의에서 `/pages/index.js` 파일의 `useEffect()` 함수 내부에서 비동기 처리의 보장을 위해 IIFE가 사용되었다.
 
-### redirects
-* Next.js에서의 리다이렉트는 `next.config.js` 파일에서 이루어지며 `module.exports`에 들어가는 객체에 `redirects()` 함수를 담는 식으로 사용한다.
-  + `redirects()` 함수는 `NextConfig` 인터페이스의 함수이며 `Promise<Redirect[]>` 객체를 반환하도록 되어있지만 구현에서 비동기 작업을 수행하지 않는다면 `async`를 붙일 필요는 없다.
-* `redirects()` 함수는 반환 타입인 `Promise<Redirect[]>`을 지키기 위해 `Redirect[]` 타입을 반환해야 한다. 때문에 반환되는 값은 배열 안의 `Redirect` 객체가 되는데 `Redirect` 객체의 형태는 아래와 같다.
-  + **source(string):** 리디렉션이 발생하는 엔드포인트를 지정한다.
-  + **destination(string):** `source`로부터 리디렉션 될 엔드포인트를 지정한다.
-  + **permanent(boolean):** 발생할 리디렉션의 유형을 나타내며 `true`인 경우 영구 리디렉션으로, `false`인 경우 일시적 리디렉션으로 취급한다.
-* `redirects()` 함수와 유사하지만 목적지에 대한 정보를 클라이언트에 공개하지 않고 리디렉션이 가능한 `rewrites()` 함수도 있다. 사용 방법은 같지만 반환 타입은 `source`와 `destination`만 존재하는 형태이다.
+### redirects와 rewrites
+* Next.js에서의 리다이렉트는 `next.config.js` 파일에서 이루어지며 `module.exports`에 들어가는 객체에 `redirects()` 함수나 `rewrites()` 함수를 담는 식으로 사용한다.
+  + 두 함수는 `NextConfig` 인터페이스의 함수이며 두 함수 모두 `Promise` 객체를 반환하도록 되어있지만 구현에서 비동기 작업을 수행하지 않는다면 따로 `async`를 붙일 필요는 없다.
+* `redirects()`와 `rewrites()`는 둘 다 리다이렉션을 구현하는 함수지만 두 함수에는 한가지 큰 차이점이 존재한다. 이는 URL의 변경이 어디서 이루어지는지에 대한 차이인데, `redirects()`의 경우 서버 측에서, `rewrites()`의 경우 클라이언트 측에서 URL의 변경이 이루어지게 된다. 이러한 차이점으로 인해 발생하는 사용 상의 차이점은 아래와 같다.
+  + **`redirects()`:** `rewrites()`에 비해 서버가 더 많은 제어권을 가지고 있기에 복잡한 리다이렉션 규칙을 적용하기 좋으며 `permanent` 속성을 통해 영구 리다이렉션 여부를 지정해 검색 엔진에게 이전 URL에 대한 정보를 무시하도록 만들 수도 있다.
+  + **`rewrites()`:** 단순한 페이지 이동이나 SEO(Search Engine Optimization)를 위한 URL의 재작성 시에 주로 사용된다.
+* `redirects()` 함수는 구현 시 반환 타입인 `Promise<Redirect[]>`을 지키기 위해 `Redirect[]` 타입을 반환해야 한다. 때문에 반환되는 값은 배열 안의 `Redirect` 객체가 되는데 주로 사용되는 객체의 필드는 다음과 같다.
+  + **source(string):** 리다이렉션이 발생하는 엔드포인트를 지정한다.
+  + **destination(string):** `source`로부터 리다이렉션 될 엔드포인트를 지정한다.
+  + **permanent(boolean):** 발생할 리다이렉션의 유형을 나타내며 `true`인 경우 영구 리다이렉션으로, `false`인 경우 일시적 리다이렉션으로 취급한다.
+* `rewrites()` 함수의 경우 반환 타입이 `Promise<Rewrite[]>`로 `Rewrite[]` 타입을 반환해야 한다. `Rewrite` 객체는 `Redirect` 객체와 크게 다르지 않으며 주로 사용되는 필드는 `source`와 `destination`이 있다. (특징은 `Redirect` 객체와 같다.)
 
 ### .env
-* 
+* `.env` 파일은 Next.js의 기능이 아니지만 새롭게 알아낸 기능의 파일이기에 여기 정리한다.
+* `.env` 파일은 
