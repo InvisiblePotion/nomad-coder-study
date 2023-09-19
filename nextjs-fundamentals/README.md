@@ -52,3 +52,7 @@
   + **source(string):** 리디렉션이 발생하는 엔드포인트를 지정한다.
   + **destination(string):** `source`로부터 리디렉션 될 엔드포인트를 지정한다.
   + **permanent(boolean):** 발생할 리디렉션의 유형을 나타내며 `true`인 경우 영구 리디렉션으로, `false`인 경우 일시적 리디렉션으로 취급한다.
+* `redirects()` 함수와 유사하지만 목적지에 대한 정보를 클라이언트에 공개하지 않고 리디렉션이 가능한 `rewrites()` 함수도 있다. 사용 방법은 같지만 반환 타입은 `source`와 `destination`만 존재하는 형태이다.
+
+### .env
+* 
